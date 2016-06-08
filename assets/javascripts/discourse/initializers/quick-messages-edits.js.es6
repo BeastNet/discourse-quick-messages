@@ -9,13 +9,13 @@ export default {
   initialize(){
 
     withPluginApi('0.1', api => {
-      api.decorateWidget('menu-panel:after', function(helper) {
+      api.decorateWidget('menu-panel:before', function(helper) {
         const currentUser = api.getCurrentUser(),
                headerState = helper.widget.parentWidget.state;
         var contents = [];
         if (!helper.widget.site.mobileView && currentUser) {
           const unread = currentUser.get('unread_private_messages')
-          contents.push(helper.attach('header-dropdown', {
+          contents.push(helper.attach('message-item', {
             title: 'user.private_messages',
             icon: 'envelope',
             iconId: 'toggle-messages-menu',
