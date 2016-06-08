@@ -38,21 +38,21 @@ export default {
         return contents
       })
 
-      api.attachWidgetAction('header', 'toggleMessages', function() {
+      api.attachWidgetAction('menu-panel', 'toggleMessages', function() {
         this.state.messagesVisible = !this.state.messagesVisible
       })
 
-      api.attachWidgetAction('header', 'addToDocked', function(id) {
+      api.attachWidgetAction('menu-panel', 'addToDocked', function(id) {
         this.messagesClicked()
         this.container.lookup('controller:application').send('addToDocked', id)
       })
 
-      api.attachWidgetAction('header', 'messagesClicked', function() {
+      api.attachWidgetAction('menu-panel', 'messagesClicked', function() {
         this.linkClickedEvent()
         this.state.messagesVisible = false
       })
 
-      api.attachWidgetAction('header', 'goToMessages', function() {
+      api.attachWidgetAction('menu-panel', 'goToMessages', function() {
         this.messagesClicked()
         DiscourseURL.routeTo('/users/' + this.currentUser.get('username') + '/messages')
       })
