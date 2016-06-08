@@ -39,7 +39,7 @@ export default {
       })
 
       api.attachWidgetAction('header', 'toggleMessages', function() {
-        this.state.messagesVisible = this.state.messagesVisible
+        this.state.messagesVisible = !this.state.messagesVisible
       })
 
       api.attachWidgetAction('header', 'addToDocked', function(id) {
