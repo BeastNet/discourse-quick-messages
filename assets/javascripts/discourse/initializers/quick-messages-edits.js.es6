@@ -38,21 +38,21 @@ export default {
         return contents
       })
 
-      api.attachWidgetAction('user-dropdown', 'toggleMessages', function() {
+      api.attachWidgetAction('user-menu', 'toggleMessages', function() {
         this.state.messagesVisible = !this.state.messagesVisible
       })
 
-      api.attachWidgetAction('user-dropdown', 'addToDocked', function(id) {
+      api.attachWidgetAction('header', 'addToDocked', function(id) {
         this.messagesClicked()
         this.container.lookup('controller:application').send('addToDocked', id)
       })
 
-      api.attachWidgetAction('user-dropdown', 'messagesClicked', function() {
+      api.attachWidgetAction('header', 'messagesClicked', function() {
         this.linkClickedEvent()
         this.state.messagesVisible = false
       })
 
-      api.attachWidgetAction('user-dropdown', 'goToMessages', function() {
+      api.attachWidgetAction('header', 'goToMessages', function() {
         this.messagesClicked()
         DiscourseURL.routeTo('/users/' + this.currentUser.get('username') + '/messages')
       })
