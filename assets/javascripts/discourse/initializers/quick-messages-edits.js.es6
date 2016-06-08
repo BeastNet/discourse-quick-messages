@@ -9,7 +9,7 @@ export default {
   initialize(){
 
     withPluginApi('0.1', api => {
-      api.decorateWidget('poster-name:before', function(helper) {
+      api.decorateWidget('post:before', function(helper) {
         const currentUser = api.getCurrentUser(),
               headerState = helper.widget.parentWidget.state;
         var contents = [];
