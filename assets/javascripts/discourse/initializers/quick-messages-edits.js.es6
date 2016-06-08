@@ -9,7 +9,7 @@ export default {
   initialize(){
 
     withPluginApi('0.1', api => {
-      api.decorateWidget('message-list:before', function(helper) {
+      api.decorateWidget('header-icons:before', function(helper) {
         const currentUser = api.getCurrentUser(),
                headerState = helper.widget.parentWidget.state;
         var contents = [];
@@ -39,7 +39,7 @@ export default {
       })
 
       api.attachWidgetAction('header', 'toggleMessages', function() {
-        this.state.messagesVisible = this.state.messagesVisible
+        this.state.messagesVisible = !this.state.messagesVisible
       })
 
       api.attachWidgetAction('header', 'addToDocked', function(id) {
