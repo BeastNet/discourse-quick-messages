@@ -38,7 +38,7 @@ export default {
         return contents
       })
 
-      api.attachWidgetAction('menu-panel', 'toggleMessages', function() {
+      api.attachWidgetAction('header', 'toggleMessages', function() {
         this.state.messagesVisible = !this.state.messagesVisible
       })
 
