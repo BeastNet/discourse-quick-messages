@@ -9,13 +9,13 @@ export default {
   initialize(){
 
     withPluginApi('0.1', api => {
-      api.decorateWidget('user-menu:after', function(helper) {
+      api.decorateWidget('header-icons:after', function(helper) {
         const currentUser = api.getCurrentUser(),
                headerState = helper.widget.parentWidget.state;
         var contents = [];
         if (!helper.widget.site.mobileView && currentUser) {
           const unread = currentUser.get('unread_private_messages')
-          contents.push(helper.attach('user-dropdown', {
+          contents.push(helper.attach('header-dropdown', {
             title: 'user.private_messages',
             icon: 'envelope',
             iconId: 'toggle-messages-menu',
@@ -42,17 +42,17 @@ export default {
         this.state.messagesVisible = !this.state.messagesVisible
       })
 
-      api.attachWidgetAction('user-dropdown', 'addToDocked', function(id) {
+      api.attachWidgetAction('header', 'addToDocked', function(id) {
         this.messagesClicked()
         this.container.lookup('controller:application').send('addToDocked', id)
       })
 
-      api.attachWidgetAction('user-dropdown', 'messagesClicked', function() {
+      api.attachWidgetAction('header', 'messagesClicked', function() {
         this.linkClickedEvent()
         this.state.messagesVisible = false
       })
 
-      api.attachWidgetAction('user-dropdown', 'goToMessages', function() {
+      api.attachWidgetAction('header', 'goToMessages', function() {
         this.messagesClicked()
         DiscourseURL.routeTo('/users/' + this.currentUser.get('username') + '/messages')
       })
