@@ -15,7 +15,7 @@ export default {
         var contents = [];
         if (!helper.widget.site.mobileView && currentUser) {
           const unread = currentUser.get('unread_private_messages')
-          contents.push(helper.attach('header-dropdown', {
+          contents.push(helper.attach('user-dropdown', {
             title: 'user.private_messages',
             icon: 'envelope',
             iconId: 'toggle-messages-menu',
