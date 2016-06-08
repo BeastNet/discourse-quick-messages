@@ -11,7 +11,7 @@ export default {
     withPluginApi('0.1', api => {
       api.decorateWidget('menu-panel:before', function(helper) {
         const currentUser = api.getCurrentUser(),
-              headerState = helper.widget.parentWidget.state;
+              headerState = helper.widget.state;
         var contents = [];
         if (!helper.widget.site.mobileView && currentUser) {
           const unread = currentUser.get('unread_private_messages')
@@ -38,7 +38,7 @@ export default {
         return contents
       })
 
-      api.attachWidgetAction('header', 'toggleMessages', function() {
+      api.attachWidgetAction('menu-panel', 'toggleMessages', function() {
         this.state.messagesVisible = !this.state.messagesVisible
       })
 
