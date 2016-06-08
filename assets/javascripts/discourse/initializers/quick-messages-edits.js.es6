@@ -9,7 +9,7 @@ export default {
   initialize(){
 
     withPluginApi('0.1', api => {
-      api.decorateWidget('user-dropdown:before', function(helper) {
+      api.decorateWidget('menu-panel:before', function(helper) {
         const currentUser = api.getCurrentUser(),
               headerState = helper.widget.parentWidget.state;
         var contents = [];
