@@ -21,7 +21,7 @@ export default createWidget('messages-menu', {
   },
 
   html() {
-    return this.attach('menu-panel', { contents: () => this.panelContents() });
+    return this.attach('message-box', { contents: () => this.panelContents() });
   },
 
   clickOutside() {
