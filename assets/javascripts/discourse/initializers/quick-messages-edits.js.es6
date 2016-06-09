@@ -15,7 +15,7 @@ export default {
         var contents = [];
         if (!helper.widget.site.mobileView && currentUser) {
           const unread = currentUser.get('unread_private_messages')
-          contents.push(helper.attach('header-dropdown', {
+          contents.push(helper.attach('message-list', {
             title: 'user.private_messages',
             icon: 'envelope',
             iconId: 'toggle-messages-menu',
@@ -31,11 +31,11 @@ export default {
               }
             }
           }));
-        }
-        if (headerState.messagesVisible) {
           contents.push(helper.attach('messages-menu'))
+          return contents
         }
-        return contents
+        
+          
       })
 
       api.attachWidgetAction('header', 'toggleMessages', function() {
