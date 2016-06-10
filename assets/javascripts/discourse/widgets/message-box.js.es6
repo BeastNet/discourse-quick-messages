@@ -27,6 +27,6 @@ createWidget('message-box', {
   },
 
   html(attrs) {
-    return h('div.panel-body', [h('span.message-heading','Messages'), h('div.panel-body-contents.clearfix', attrs.contents())]);
+    return h('div.panel-body', [h('span.message-heading',"Messages"), h('div.panel-body-contents.clearfix', attrs.contents())]);
   }
 });
