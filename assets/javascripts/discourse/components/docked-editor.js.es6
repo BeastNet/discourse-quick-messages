@@ -1,11 +1,17 @@
 import loadScript from 'discourse/lib/load-script';
 import { default as computed, on, observes } from 'ember-addons/ember-computed-decorators';
-import { showSelector } from "discourse/lib/emoji/emoji-toolbar";
+import { showSelector } from "discourse/lib/emoji/toolbar";
 import userSearch from 'discourse/lib/user-search';
 import { linkSeenMentions, fetchUnseenMentions } from 'discourse/lib/link-mentions';
-import { SEPARATOR as categoryHashtagSeparator,
-         categoryHashtagTriggerRule
-       } from 'discourse/lib/category-hashtags';
+import { SEPARATOR as categoryHashtagSeparator, categoryHashtagTriggerRule} from 'discourse/lib/category-hashtags';
+import { translations } from 'pretty-text/emoji/data';
+import { emojiSearch } from 'pretty-text/emoji';
+import { emojiUrlFor } from 'discourse/lib/text';
+
+import { tinyAvatar,
+         displayErrorForUpload,
+         getUploadMarkdown,
+         validateUploadedFiles } from 'discourse/lib/utilities';
 
 // Our head can be a static string or a function that returns a string
 // based on input (like for numbered lists).
@@ -179,7 +185,7 @@ export default Ember.Component.extend({
         if (posts && topicId === topic.get('id')) {
           const quotedPost = posts.findProperty("post_number", postNumber);
           if (quotedPost) {
-            return Discourse.Utilities.tinyAvatar(quotedPost.get('avatar_template'));
+            return tinyAvatar(quotedPost.get('avatar_template'));
           }
         }
       }
@@ -217,7 +223,7 @@ export default Ember.Component.extend({
     });
 
     $element.on('fileuploadsubmit', (e, data) => {
-      const isUploading = Discourse.Utilities.validateUploadedFiles(data.files);
+      const isUploading = validateUploadedFiles(data.files);
       data.formData = { type: "composer" };
       this.setProperties({ uploadProgress: 0, isUploading });
       return isUploading;
@@ -246,7 +252,7 @@ export default Ember.Component.extend({
       this._xhr = null;
 
       if (!userCancelled) {
-        Discourse.Utilities.displayErrorForUpload(data);
+        displayErrorForUpload(data);
       }
     });
 
@@ -254,7 +260,7 @@ export default Ember.Component.extend({
       // replace upload placeholder
       if (upload && upload.url) {
         if (!this._xhr || !this._xhr._userCancelled) {
-          const markdown = Discourse.Utilities.getUploadMarkdown(upload);
+          const markdown = getUploadMarkdown(upload);
           this.set('value', this.get('value').replace(uploadPlaceholder, markdown));
           this._resetUpload(false);
           this.set('dockedUpload', false)
@@ -263,7 +269,7 @@ export default Ember.Component.extend({
         }
       } else {
         this._resetUpload(true);
-        Discourse.Utilities.displayErrorForUpload(upload);
+        displayErrorForUpload(upload);
       }
     });
 
@@ -331,15 +337,15 @@ export default Ember.Component.extend({
             return resolve(["slight_smile", "smile", "wink", "sunny", "blush"]);
           }
 
-          if (Discourse.Emoji.translations[full]) {
-            return resolve([Discourse.Emoji.translations[full]]);
+          if (translations[full]) {
+            return resolve([translations[full]]);
           }
 
-          const options = Discourse.Emoji.search(term, {maxResults: 5});
+          const options = emojiSearch(term, {maxResults: 5});
 
           return resolve(options);
         }).then(list => list.map(code => {
-          return {code, src: Discourse.Emoji.urlFor(code)};
+          return {code, src: emojiUrlFor(code)};
         })).then(list => {
           if (list.length) {
             list.push({ label: I18n.t("composer.more_emoji") });

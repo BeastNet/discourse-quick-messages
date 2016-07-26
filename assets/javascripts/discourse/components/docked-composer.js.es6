@@ -4,6 +4,8 @@ import { getCurrentUserMessages } from 'discourse/plugins/discourse-quick-messag
 import Topic from 'discourse/models/topic';
 import autosize from 'discourse/lib/autosize';
 import Composer from 'discourse/models/composer';
+import { emojiUnescape } from 'discourse/lib/text';
+import { ajax } from 'discourse/lib/ajax';
 
 const _create_serializer = {
         raw: 'reply',
@@ -173,7 +175,7 @@ export default Ember.Component.extend({
     for (var p = lastRead + 1; p <= highest; p++) {
       newTimings[p] = 3000
     }
-    Discourse.ajax('/topics/timings', {
+    ajax('/topics/timings', {
       data: {
         timings: newTimings,
         topic_time: 3000,
@@ -207,7 +209,7 @@ export default Ember.Component.extend({
         store = this.container.lookup('store:main'),
         postStream = this.get('postStream'),
         createdPost = store.createRecord('post', {
-          cooked: Discourse.Emoji.unescape(this.get('reply')),
+          cooked: emojiUnescape(this.get('reply')),
           yours: true
          }),
         postOpts = { custom_fields: { 'quick_message': true } };
@@ -243,7 +245,7 @@ export default Ember.Component.extend({
       }
     }).catch(function(error) {
       console.log(error)
-      bootbox.alert(error)
+      bootbox.alert(error.jqXHR.responseJSON.errors[0])
     });
   },
 
